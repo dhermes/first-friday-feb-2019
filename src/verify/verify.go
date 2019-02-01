@@ -69,5 +69,16 @@ func Verify(token string, publicKeyPEMBytes []byte, timestamp time.Time) (bool, 
 		return false, errors.New("Invalid token lifetime.")
 	}
 
+	iatTimestamp := time.Unix(int64(iat), 0)
+	if timestamp.Before(iatTimestamp) {
+		// TODO: Allow 5 minute jitter.
+		return false, errors.New("Token was issued (`iss`) in the future.")
+	}
+	expTimestamp := time.Unix(int64(exp), 0)
+	if expTimestamp.Before(timestamp) {
+		// TODO: Allow 5 minute jitter.
+		return false, errors.New("Token has already expired (`exp`).")
+	}
+
 	return true, nil
 }

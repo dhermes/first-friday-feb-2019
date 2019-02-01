@@ -8,6 +8,8 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
+const actualIat = 1549050972
+
 func TestParse(t *testing.T) {
 	tokenBytes, err := ioutil.ReadFile("test_data/example_jwt.txt")
 	if err != nil {
@@ -52,7 +54,7 @@ func TestVerify(t *testing.T) {
 		return
 	}
 
-	timestamp := time.Now()
+	timestamp := time.Unix(actualIat+1800, 0)
 
 	var isValid bool
 	isValid, err = Verify(token, publicKeyBytes, timestamp)
