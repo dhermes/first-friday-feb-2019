@@ -34,10 +34,23 @@ $ AWS_ACCESS_KEY_ID=... \
 >   serverless deploy
 ```
 
-## Resources
+## Application Design
 
-- [Serverless][1] framework quickstart
-- Serverless [Golang][2] instructions
+We have 3 pieces to build
+
+-   Lambda Function `/gimme-key` which takes an (unauthorized) request and
+    returns a service account name and a private key (then stores the
+    corresponding public key in S3 or DynamoDB)
+-   Lambda Function `/who-am-i` which requires a JWT for authentication (maybe
+    using a `scope` claim for authorization) and just returns some metadata
+    about the authorized user
+-   Client which calls `/gimme-key` to get a key and then creates an
+    authenaticated request to `/who-am-i` with that key
+
+## Documentation
+
+-   [Serverless][1] framework quickstart
+-   Serverless [Golang][2] instructions
 
 ## Oops (i.e. things that went wrong)
 
