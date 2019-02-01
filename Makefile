@@ -15,6 +15,7 @@ help:
 	@echo ''
 
 build:
+	[ -d ./node_modules ] || npm ci
 	env GOOS=linux go build -ldflags="-s -w" -o src/bin/hello src/hello/main.go
 	env GOOS=linux go build -ldflags="-s -w" -o src/bin/world src/world/main.go
 
@@ -22,13 +23,13 @@ clean:
 	rm -rf ./src/bin
 
 deploy: clean build
-	serverless deploy --verbose
+	cd src/ && ../node_modules/.bin/serverless deploy --verbose
 
 update-hello: clean build
-	serverless deploy function --function hello
+	cd src/ && ../node_modules/.bin/serverless deploy function --function hello
 
 update-world: clean build
-	serverless deploy function --function world
+	cd src/ && ../node_modules/.bin/serverless deploy function --function world
 
 clean-up:
-	serverless remove
+	cd src/ && ../node_modules/.bin/serverless remove
