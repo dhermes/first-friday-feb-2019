@@ -53,11 +53,23 @@ package:
    - ./bin/**
 
 functions:
+  gimme-key:
+    handler: bin/gimme-key
+    events:
+      - http:
+          path: gimme-key
+          method: get
   hello:
     handler: bin/hello
     events:
       - http:
           path: hello
+          method: get
+  who-am-i:
+    handler: bin/who-am-i
+    events:
+      - http:
+          path: who-am-i
           method: get
 
 #    The following are a few example events you can configure
