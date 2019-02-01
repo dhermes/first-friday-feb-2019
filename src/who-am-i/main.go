@@ -4,9 +4,14 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
+	"strings"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"github.com/dhermes/first-friday-feb-2019/pkg/verify"
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -16,9 +21,22 @@ import (
 type Response events.APIGatewayProxyResponse
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(ctx context.Context) (Response, error) {
-	var buf bytes.Buffer
+func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (Response, error) {
+	var err error
 
+	authorization := request.Headers["Authorization"]
+	if !strings.HasPrefix(authorization, "Bearer ") {
+		return Response{StatusCode: 401}, errors.New("Unauthorized.")
+	}
+	bearerTokenJWT := authorization[7:]
+	publicKeyPEMBytes := []byte("") // TODO: Get these from somewhere.
+	var valid bool
+	valid, err = verify.Verify(bearerTokenJWT, publicKeyPEMBytes, time.Now())
+	if err != nil || !valid {
+		return Response{StatusCode: 401}, errors.New("Invalid JWT.")
+	}
+
+	var buf bytes.Buffer
 	body, err := json.Marshal(map[string]interface{}{
 		"message": "who-am-i",
 	})
