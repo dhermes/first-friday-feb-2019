@@ -13,3 +13,6 @@
 
 # Generated files
 node_modules/
+
+# Secret files
+.aws-secrets
