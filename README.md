@@ -21,6 +21,7 @@ $ go version
 go version go1.11.4 darwin/amd64
 $ ./node_modules/.bin/serverless create --template aws-go --path src/
 $ go get github.com/aws/aws-lambda-go/events
+$ go get github.com/dgrijalva/jwt-go
 ```
 
 Building the application and pushing it to AWS Lambda
