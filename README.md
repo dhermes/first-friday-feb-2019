@@ -39,5 +39,12 @@ $ AWS_ACCESS_KEY_ID=... \
 - [Serverless][1] framework quickstart
 - Serverless [Golang][2] instructions
 
+## Oops (i.e. things that went wrong)
+
+-   Visited `console.aws.amazon.com/lambda` for `us-east-2` (my account's
+    default) rather than `us-east-1` (where our functions were deployed)
+-   Got a 403 on the `hello` route (`@justinzhou93` modified the source while
+    having build issues, this one may remain a mystery)
+
 [1]: https://serverless.com/framework/docs/providers/aws/guide/quick-start/
 [2]: https://serverless.com/blog/framework-example-golang-lambda-support/

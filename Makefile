@@ -25,10 +25,10 @@ deploy: clean build
 	serverless deploy --verbose
 
 update-hello: clean build
-    serverless deploy function --function hello
+	serverless deploy function --function hello
 
 update-world: clean build
-    serverless deploy function --function world
+	serverless deploy function --function world
 
 clean-up:
-    serverless remove
+	serverless remove
