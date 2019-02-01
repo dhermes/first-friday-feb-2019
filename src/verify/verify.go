@@ -4,6 +4,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
+	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
@@ -28,4 +29,12 @@ func Parse(token string, publicKeyPEMBytes []byte) (*jwt.Token, error) {
 		return nil, err
 	}
 	return parsed, nil
+}
+
+func Verify(token string, publicKeyPEMBytes []byte, timestamp time.Time) (bool, error) {
+	_, err := Parse(token, publicKeyPEMBytes)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
