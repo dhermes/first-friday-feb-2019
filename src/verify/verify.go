@@ -9,6 +9,8 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
+const resourceName = "urn:first-friday-feb-2019"
+
 func Parse(token string, publicKeyPEMBytes []byte) (*jwt.Token, error) {
 	derBlock, _ := pem.Decode(publicKeyPEMBytes)
 	if derBlock == nil {
@@ -32,9 +34,40 @@ func Parse(token string, publicKeyPEMBytes []byte) (*jwt.Token, error) {
 }
 
 func Verify(token string, publicKeyPEMBytes []byte, timestamp time.Time) (bool, error) {
-	_, err := Parse(token, publicKeyPEMBytes)
+	parsed, err := Parse(token, publicKeyPEMBytes)
 	if err != nil {
 		return false, err
 	}
+	var iat, exp float64
+	var iss, aud string
+	var ok bool
+
+	// TODO: Use `kid`.
+	if iat, ok = parsed.Header["iat"].(float64); !ok {
+		return false, errors.New("`iat` header is missing.")
+	}
+	if exp, ok = parsed.Header["exp"].(float64); !ok {
+		return false, errors.New("`exp` header is missing.")
+	}
+	if iss, ok = parsed.Header["iss"].(string); !ok {
+		return false, errors.New("`iss` header is missing.")
+	}
+	if aud, ok = parsed.Header["aud"].(string); !ok {
+		return false, errors.New("`aud` header is missing.")
+	}
+
+	// Actually verify the values.
+	if aud != resourceName {
+		return false, errors.New("Invalid `aud` header.")
+	}
+	if iss != resourceName {
+		return false, errors.New("Invalid `iss` header.")
+	}
+
+	lifetime := exp - iat
+	if lifetime <= 0.0 || lifetime > 3600.0 {
+		return false, errors.New("Invalid token lifetime.")
+	}
+
 	return true, nil
 }
