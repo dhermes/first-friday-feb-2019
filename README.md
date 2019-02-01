@@ -37,7 +37,7 @@ $ AWS_ACCESS_KEY_ID=... \
 ## Resources
 
 - [Serverless][1] framework quickstart
-- Serverless [Golang]][2] instructions
+- Serverless [Golang][2] instructions
 
 [1]: https://serverless.com/framework/docs/providers/aws/guide/quick-start/
 [2]: https://serverless.com/blog/framework-example-golang-lambda-support/
