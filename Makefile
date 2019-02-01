@@ -1,4 +1,4 @@
-.PHONY: help build clean deploy update-gimme-key update-hello update-who-am-i remove
+.PHONY: help build clean deploy update-gimme-key update-who-am-i remove
 
 help:
 	@echo 'Makefile for `first-friday-feb-2019` app'
@@ -8,7 +8,6 @@ help:
 	@echo '   make clean               Remove the built application'
 	@echo '   make deploy              Deploy the built application to AWS Lambda'
 	@echo '   make update-gimme-key    Update the (already deployed) `gimme-key` function'
-	@echo '   make update-hello        Update the (already deployed) `hello` function'
 	@echo '   make update-who-am-i     Update the (already deployed) `who-am-i` function'
 	@echo '   make remove              Remove the AWS Lambda service'
 	@echo ''
@@ -18,7 +17,6 @@ help:
 build:
 	[ -d ./node_modules ] || npm ci
 	env GOOS=linux go build -ldflags="-s -w" -o src/bin/gimme-key src/gimme-key/main.go
-	env GOOS=linux go build -ldflags="-s -w" -o src/bin/hello src/hello/main.go
 	env GOOS=linux go build -ldflags="-s -w" -o src/bin/who-am-i src/who-am-i/main.go
 
 clean:
@@ -29,9 +27,6 @@ deploy: clean build
 
 update-gimme-key: clean build
 	cd src/ && ../node_modules/.bin/serverless deploy function --function gimme-key
-
-update-hello: clean build
-	cd src/ && ../node_modules/.bin/serverless deploy function --function hello
 
 update-who-am-i: clean build
 	cd src/ && ../node_modules/.bin/serverless deploy function --function who-am-i
