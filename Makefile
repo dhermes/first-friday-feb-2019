@@ -1,4 +1,4 @@
-.PHONY: help build clean deploy update-gimme-key update-hello update-who-am-i clean-up
+.PHONY: help build clean deploy update-gimme-key update-hello update-who-am-i remove
 
 help:
 	@echo 'Makefile for `first-friday-feb-2019` app'
@@ -10,7 +10,7 @@ help:
 	@echo '   make update-gimme-key    Update the (already deployed) `gimme-key` function'
 	@echo '   make update-hello        Update the (already deployed) `hello` function'
 	@echo '   make update-who-am-i     Update the (already deployed) `who-am-i` function'
-	@echo '   make clean-up            Remove the AWS Lambda service'
+	@echo '   make remove              Remove the AWS Lambda service'
 	@echo ''
 	@echo 'Set the AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID variables for deploy'
 	@echo ''
@@ -36,5 +36,5 @@ update-hello: clean build
 update-who-am-i: clean build
 	cd src/ && ../node_modules/.bin/serverless deploy function --function who-am-i
 
-clean-up:
+remove:
 	cd src/ && ../node_modules/.bin/serverless remove
