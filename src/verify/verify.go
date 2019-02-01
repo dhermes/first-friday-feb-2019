@@ -33,7 +33,7 @@ func Parse(token string, publicKeyPEMBytes []byte) (*jwt.Token, error) {
 	return parsed, nil
 }
 
-func Verify(token string, publicKeyPEMBytes []byte, timestamp time.Time) (bool, error) {
+func Verify(token string, publicKeyPEMBytes []byte, nowTimestamp time.Time) (bool, error) {
 	parsed, err := Parse(token, publicKeyPEMBytes)
 	if err != nil {
 		return false, err
@@ -69,13 +69,13 @@ func Verify(token string, publicKeyPEMBytes []byte, timestamp time.Time) (bool, 
 		return false, errors.New("Invalid token lifetime.")
 	}
 
-	iatTimestamp := time.Unix(int64(iat), 0)
-	if timestamp.Before(iatTimestamp) {
+	iatnowTimestamp := time.Unix(int64(iat), 0)
+	if nowTimestamp.Before(iatnowTimestamp) {
 		// TODO: Allow 5 minute jitter.
 		return false, errors.New("Token was issued (`iss`) in the future.")
 	}
-	expTimestamp := time.Unix(int64(exp), 0)
-	if expTimestamp.Before(timestamp) {
+	expnowTimestamp := time.Unix(int64(exp), 0)
+	if expnowTimestamp.Before(nowTimestamp) {
 		// TODO: Allow 5 minute jitter.
 		return false, errors.New("Token has already expired (`exp`).")
 	}
