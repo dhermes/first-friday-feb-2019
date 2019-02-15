@@ -63,6 +63,15 @@ We have 3 pieces to build
     default) rather than `us-east-1` (where our functions were deployed)
 -   Got a 403 on the `hello` route (`@justinzhou93` modified the source while
     having build issues, this one may remain a mystery)
+-   Danny screwed up the concept of an API gateway and was causing a 500
+    when a 401 was desired. To debug:
+    ```
+    cd src/ && \
+      ../node_modules/.bin/serverless invoke --function who-am-i && \
+      cd -
+    ```
+    See [Request Templates][3].
 
 [1]: https://serverless.com/framework/docs/providers/aws/guide/quick-start/
 [2]: https://serverless.com/blog/framework-example-golang-lambda-support/
+[3]: https://serverless.com/framework/docs/providers/aws/events/apigateway#default-request-templates
