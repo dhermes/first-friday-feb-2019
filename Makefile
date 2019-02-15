@@ -11,7 +11,7 @@ help:
 	@echo '   make update-who-am-i     Update the (already deployed) `who-am-i` function'
 	@echo '   make remove              Remove the AWS Lambda service'
 	@echo ''
-	@echo 'Set the AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID variables for deploy'
+	@echo 'Set the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY variables for deploy'
 	@echo ''
 
 build:
