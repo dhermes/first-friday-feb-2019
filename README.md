@@ -20,12 +20,12 @@ Creating the template and getting dependencies
 $ go version
 go version go1.11.4 darwin/amd64
 $ ./node_modules/.bin/serverless create --template aws-go --path src/
-$ go get github.com/aws/aws-lambda-go/events
-$ go get github.com/aws/aws-sdk-go/aws
-$ go get github.com/dgrijalva/jwt-go
-$ go get github.com/satori/go.uuid
+$ go get -u github.com/aws/aws-lambda-go/events
+$ go get -u github.com/aws/aws-sdk-go/aws
+$ go get -u github.com/dgrijalva/jwt-go
+$ go get -u github.com/satori/go.uuid
 $ # Wrong way to do this, but "meh" (Justin will figure it out).
-$ go get github.com/dhermes/first-friday-feb-2019/pkg/verify
+$ go get -u github.com/dhermes/first-friday-feb-2019/pkg/verify
 ```
 
 Building the application and pushing it to AWS Lambda

@@ -29,7 +29,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (Respon
 		return Response{StatusCode: 401}, errors.New("Unauthorized.")
 	}
 	bearerTokenJWT := authorization[7:]
-	publicKeyPEMBytes := []byte("-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEApbRv8NhJ8jZ2fHK8FlomklkYCb1jxbLTSjNQ8IUdCJ1TBaP0u7sh\n1rvyKhK0TPwx5tZkm4ZtgACKmw8Wfok8Lf8OkYPOYdZ1Lj9ftxIS+B8/S/tld73x\nqwRj3S+iKUH8UNKtVovgdUsojlBvuMe5fwRw/QL0/cO3iwl73vMFjn6MPQWUeZzO\n9S8peDf/HogVhHcO2k2wsunfepgX0cbZPfwwtOQ9ZJq1+RcUNVQaR5EU6CoTnc6l\ntaesywuZi4a4OaN/eMD+ZXX6JEldq3t/PZP2tA3tLtWtkVHJhN6pb8vhzeEEftqV\n5FtrGzJM+H9lrFNJmfNAL05Rc14GZZrqiQIDAQAB\n-----END RSA PUBLIC KEY-----\n") // TODO: Get these from somewhere.
+	publicKeyPEMBytes := []byte("-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAmBbzWGBpUqBlUKdt4tTe7ZWRzROY7gWt/qcsXP8eGZ+wnW/NEnYY\nCqtaDA+d/TL0zaHrzJEoy50dl0FqjyixUerK/90cWS8oOIghiYeMOovfoh4Zv7Tj\nnlzyfzQV9wn0xkOc7fGdapwZzDiabj3yunvFNhnvPJng6nJ0h7zUmvI+hIUcp5n4\nzH19kV/Hn1NVFzPDALQk+wHALlSBHEiOLAfh0EUl4FoKzztoe/FcBxIWYkEsutGS\nst1nSDQqEoOvykP05H1Ni7qHu7S7D5wIpztB9v+ag6blM/jSxP3M3AU3GHHd75pF\ns6jcRInHNGUj0NHSoaSrqoD/YIwEb0FZ4QIDAQAB\n-----END RSA PUBLIC KEY-----\n") // TODO: Get these from somewhere.
 	var valid bool
 	valid, err = verify.Verify(bearerTokenJWT, publicKeyPEMBytes, time.Now())
 	if err != nil || !valid {
