@@ -38,21 +38,27 @@ func Verify(token string, publicKeyPEMBytes []byte, nowTimestamp time.Time) (boo
 	if err != nil {
 		return false, err
 	}
+	var claims jwt.MapClaims
 	var iat, exp float64
 	var iss, aud string
 	var ok bool
 
 	// TODO: Use `kid`.
-	if iat, ok = parsed.Header["iat"].(float64); !ok {
+
+	if claims, ok = parsed.Claims.(jwt.MapClaims); !ok {
+		return false, errors.New("Wasn't map claims.")
+	}
+
+	if iat, ok = claims["iat"].(float64); !ok {
 		return false, errors.New("`iat` header is missing.")
 	}
-	if exp, ok = parsed.Header["exp"].(float64); !ok {
+	if exp, ok = claims["exp"].(float64); !ok {
 		return false, errors.New("`exp` header is missing.")
 	}
-	if iss, ok = parsed.Header["iss"].(string); !ok {
+	if iss, ok = claims["iss"].(string); !ok {
 		return false, errors.New("`iss` header is missing.")
 	}
-	if aud, ok = parsed.Header["aud"].(string); !ok {
+	if aud, ok = claims["aud"].(string); !ok {
 		return false, errors.New("`aud` header is missing.")
 	}
 
